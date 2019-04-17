@@ -76,3 +76,7 @@ or if you want to use `String.format()` style arguments:
 ````
 The method `CJLog.debug()` behaves identically to `logMsg()` except it only logs if the `isDebug` property is true.
 Exceptions can be logged with `logException(throwable)`
+
+## API Docs
+
+Can be found [here](https://clydebarrow.github.io/CJLog/cjlog/). 
