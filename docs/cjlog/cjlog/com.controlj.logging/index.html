@@ -1,0 +1,66 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>com.controlj.logging - cjlog</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">cjlog</a>&nbsp;/&nbsp;<a href="./index.html">com.controlj.logging</a><br/>
+<br/>
+<h2>Package com.controlj.logging</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-c-j-log/index.html">CJLog</a></p>
+</td>
+<td>
+<code><span class="keyword">object </span><span class="identifier">CJLog</span></code>
+<p>This class enables logging to a file and optionally a remote server.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-destination/index.html">Destination</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">Destination</span></code>
+<p>An interface for a logging destination.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-file-logger/index.html">FileLogger</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">FileLogger</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-destination/index.html"><span class="identifier">Destination</span></a></code>
+<p>A logging <a href="-destination/index.html">Destination</a> that saves to the supplied <a href="-file-logger/log-file.html">logFile</a></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-http-logger/index.html">HttpLogger</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">HttpLogger</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-destination/index.html"><span class="identifier">Destination</span></a></code>
+<p>Log data to a web server. Set the property SYSLOGGER to change the destination. Data is logged using HEAD
+calls with the message and other information in the query string.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-watch-dog/index.html">WatchDog</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">WatchDog</span></code>
+<p>A watchdog timer for a thread. The watched thread will be that associated with the scheduler, typically
+this will be the platform's main thread scheduler
+a crash dump of the watched thread will be delivered to the observer.
+Do NOT subscribe to this on the thread you want to watch :-)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

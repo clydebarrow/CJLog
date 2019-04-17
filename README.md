@@ -61,6 +61,15 @@ class FoundationLogger : Destination {
 }
 ````
 
+The Android equivalent is:
+````kotlin
+class LogCatLogger : Destination {
+    override fun sendMessage(deviceID: String, message: String) {
+        Log.d(deviceID, message)
+    }
+}
+````
+
 The `HttpLogger()` class will log to a suitably provisioned web server. This is typically used only in development to a local
 host - it does not implement any security. To set the destination URL set the `HttpLogger.SYSLOGGER` property.
 
