@@ -29,8 +29,7 @@ import java.util.concurrent.TimeUnit
  * this will be the platform's main thread scheduler
  * a crash dump of the watched thread will be delivered to the observer.
  * Do NOT subscribe to this on the thread you want to watch :-)
- */
-/**
+ *
  * @param scheduler The scheduler for the thread of interest.
  * @param timeout The watchdog timeout in timeUnits
  * @param timeUnit The timeUnit
