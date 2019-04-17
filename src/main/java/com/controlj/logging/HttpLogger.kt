@@ -30,6 +30,7 @@ import java.util.concurrent.LinkedBlockingQueue
 /**
  * Log data to a web server. Set the property SYSLOGGER to change the destination. Data is logged using HEAD
  * calls with the message and other information in the query string.
+ * The transmission of data to the remote server is carried out on a dedicated [Thread].
  *
  * @param onFail A lambda to be called if connection to the destination fails.
  */
@@ -63,13 +64,11 @@ class HttpLogger(onFail: () -> Unit = {}) : Destination {
         } catch (ignored: UnsupportedEncodingException) {
             return
         }
-
         try {
             url = URL(SYSLOGGER + args)
         } catch (ignored: MalformedURLException) {
             return
         }
-
         messageQueue.offer(url)
     }
 
@@ -88,7 +87,7 @@ class HttpLogger(onFail: () -> Unit = {}) : Destination {
             connection.requestMethod = "HEAD"
             val responseCode = connection.responseCode
             connection.disconnect()
-            return 200 <= responseCode && responseCode <= 399
+            return responseCode in (200..399)
         } catch (e: Exception) {
             return false
         }
@@ -100,10 +99,22 @@ class HttpLogger(onFail: () -> Unit = {}) : Destination {
          * The destination to use.
          */
         var SYSLOGGER = "http://192.168.1.131/syslog.php"
-        private val MAX_QUEUE = 100
-        private val CHARSETNAME = "UTF-8"
-        private val READ_TIMEOUT = 20000
-        private val CONNECTION_TIMEOUT = 10000
+        /**
+         * The maximum number of messages to queue
+         */
+        var MAX_QUEUE = 100
+        /**
+         * The charset to use for URL encoding
+         */
+        var CHARSETNAME = "UTF-8"
+        /**
+         * How long to wait for a response from the server
+         */
+        var READ_TIMEOUT = 20000
+        /**
+         * How long to wait for a connection to the server
+         */
+        var CONNECTION_TIMEOUT = 10000
     }
 
 }

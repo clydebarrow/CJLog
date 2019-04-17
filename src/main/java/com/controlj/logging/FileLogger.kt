@@ -23,7 +23,10 @@ import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingQueue
 
 /**
- * A logging [Destination] that saves to the supplied [logFile]
+ * A logging [Destination] that saves to the supplied [logFile]. On each class creation any previous logfiles
+ * will be rotated, up to a maximum of [MAX_FILES]. If the created file is "app.log" then older files will be
+ * rotated to "app.log.1" etc.
+ * Writing to files is carried out on a dedicated [Thread]
  *
  * @param logFile The file in which logs are to be saved
  */
