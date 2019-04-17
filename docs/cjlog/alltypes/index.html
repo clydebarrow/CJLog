@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
+CJLog
 <h3>All Types</h3>
 <table>
 <tbody>
@@ -41,6 +42,10 @@ calls with the message and other information in the query string.</p>
 <td>
 <a href="../com.controlj.logging/-watch-dog/index.html">com.controlj.logging.WatchDog</a></td>
 <td>
+<p>A watchdog timer for a thread. The watched thread will be that associated with the scheduler, typically
+this will be the platform's main thread scheduler
+a crash dump of the watched thread will be delivered to the observer.
+Do NOT subscribe to this on the thread you want to watch :-)</p>
 </td>
 </tr>
 </tbody>

@@ -53,7 +53,12 @@ calls with the message and other information in the query string.</p>
 <p><a href="-watch-dog/index.html">WatchDog</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">WatchDog</span></code></td>
+<code><span class="keyword">class </span><span class="identifier">WatchDog</span></code>
+<p>A watchdog timer for a thread. The watched thread will be that associated with the scheduler, typically
+this will be the platform's main thread scheduler
+a crash dump of the watched thread will be delivered to the observer.
+Do NOT subscribe to this on the thread you want to watch :-)</p>
+</td>
 </tr>
 </tbody>
 </table>
