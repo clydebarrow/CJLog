@@ -88,4 +88,4 @@ Exceptions can be logged with `logException(throwable)`
 
 ## API Docs
 
-Can be found [here](https://clydebarrow.github.io/CJLog/cjlog/). 
+Can be found [here](https://clydebarrow.github.io/CJLog/cjlog/index.html). 
