@@ -48,8 +48,8 @@ these functions will work:
 ````
 
 In the above example a logfile is created using the call `CJLog.add(FileLogger(File(tmpdir, "app.log")))`. You can retrieve
-this file later via the property `CJLog.logfiles`
-The `CJLog.captureErr()` call allows the logger to capture and log anything printed to STDERR.
+this file later via the property [`CJLog.logfiles`]
+The [`CJLog.captureErr()`] call allows the logger to capture and log anything printed to STDERR.
 
 Another destination is added with `CJLog.add(FoundationLogger())` - in this case `FoundationLogger()` creates an iOS
 Foundation logger - the source for `FoundationLogger` is:
@@ -70,8 +70,8 @@ class LogCatLogger : Destination {
 }
 ````
 
-The `HttpLogger()` class will log to a suitably provisioned web server. This is typically used only in development to a local
-host - it does not implement any security. To set the destination URL set the `HttpLogger.SYSLOGGER` property.
+The [`HttpLogger`] class will log to a suitably provisioned web server. This is typically used only in development to a local
+host - it does not implement any security. To set the destination URL set the [`HttpLogger.SYSLOGGER`] property.
 
 ## Logging data
 
@@ -83,9 +83,20 @@ or if you want to use `String.format()` style arguments:
 ````kotlin
       CJLog.logMsg("Got data %d length %d", value, length)
 ````
-The method `CJLog.debug()` behaves identically to `logMsg()` except it only logs if the `isDebug` property is true.
-Exceptions can be logged with `logException(throwable)`
+The method [`CJLog.debug()`] behaves identically to [`logMsg()`] except it only logs if the [`isDebug`] property is true.
+Exceptions can be logged with [`logException()`]
 
 ## API Docs
 
 Can be found [here](https://clydebarrow.github.io/CJLog/cjlog/index.html). 
+
+[`CJLog.debug()`]:[https://clydebarrow.github.io/CJLog/cjlog/com.controlj.logging/-c-j-log/debug.html]
+[`logMsg()`]:[https://clydebarrow.github.io/CJLog/cjlog/com.controlj.logging/-c-j-log/log-msg.html]
+[`logException()`]:[https://clydebarrow.github.io/CJLog/cjlog/com.controlj.logging/-c-j-log/log-exception.html]
+[`FileLogger`]:[https://clydebarrow.github.io/CJLog/cjlog/com.controlj.logging/-c-j-log/log-exception.html]
+[`isDebug`]:[https://clydebarrow.github.io/CJLog/cjlog/com.controlj.logging/-c-j-log/is-debug.html]
+[`CJLog.captureErr()`]:[https://clydebarrow.github.io/CJLog/cjlog/com.controlj.logging/-c-j-log/capture-err.html]
+[`CJLog.logFiles`]:[https://clydebarrow.github.io/CJLog/cjlog/com.controlj.logging/-c-j-log/log-files.html]
+[`FileLogger`]:[https://clydebarrow.github.io/CJLog/cjlog/com.controlj.logging/-c-j-log/-file-logger.html]
+[`HttpLogger.SYSLOGGER`]:[https://clydebarrow.github.io/CJLog/cjlog/com.controlj.logging/-http-logger/-s-y-s-l-o-g-g-e-r.html]
+[`HttpLogger`]:[https://clydebarrow.github.io/CJLog/cjlog/com.controlj.logging/-http-logger/index.html]
