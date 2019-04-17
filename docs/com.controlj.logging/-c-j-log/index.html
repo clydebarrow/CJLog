@@ -1,0 +1,136 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CJLog - cjlog</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">cjlog</a>&nbsp;/&nbsp;<a href="../index.html">com.controlj.logging</a>&nbsp;/&nbsp;<a href="./index.html">CJLog</a><br/>
+<br/>
+<h1>CJLog</h1>
+<code><span class="keyword">object </span><span class="identifier">CJLog</span></code>
+<p>This class enables logging to a file and optionally a remote server.</p>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="device-id.html">deviceId</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">deviceId</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>The deviceID. Set by the Application on startup</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="is-debug.html">isDebug</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">isDebug</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>If this is a debug build. Must be set by external logic, as it is system dependent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="log.html">log</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">log</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Retrieve a string with the most recent log messages. All destinations will be queried for this, the first
+one that can deliver a result will be used. How much is retained will be destination dependent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="log-files.html">logFiles</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">logFiles</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><span class="identifier">File</span></a><span class="symbol">&gt;</span></code>
+<p>Query all destinations for preserved log files. Return the first one found.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="logger.html">logger</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">logger</span><span class="symbol">: </span><span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Useful logging lambda to poke into various places.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="logger-observable.html">loggerObservable</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">loggerObservable</span><span class="symbol">: </span><span class="identifier">Observable</span><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code>
+<p>Delivers a stream of log messages to anyone interested. Useful for in-app display of the log stream.
+See also <a href="log-files.html">logFiles</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="add.html">add</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">add</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.CJLog$add(com.controlj.logging.Destination)/destination">destination</span><span class="symbol">:</span>&nbsp;<a href="../-destination/index.html"><span class="identifier">Destination</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Add a new <a href="../-destination/index.html">Destination</a> to the list.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="capture-err.html">captureErr</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">captureErr</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Call this function if you want the logger to capture the STDERR output stream.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="close.html">close</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">close</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Close all destinations and remove them from the list.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="debug.html">debug</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">debug</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.CJLog$debug(kotlin.String, kotlin.Array((kotlin.Any)))/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="keyword">vararg</span> <span class="identifier" id="com.controlj.logging.CJLog$debug(kotlin.String, kotlin.Array((kotlin.Any)))/args">args</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Add a log message only if this is a debug build. See <a href="log-msg.html">logMsg</a></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="log-exception.html">logException</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">logException</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.CJLog$logException(kotlin.Throwable)/e">e</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html"><span class="identifier">Throwable</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Log an exception.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="log-msg.html">logMsg</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">logMsg</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.CJLog$logMsg(kotlin.String, kotlin.Array((kotlin.Any)))/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="keyword">vararg</span> <span class="identifier" id="com.controlj.logging.CJLog$logMsg(kotlin.String, kotlin.Array((kotlin.Any)))/args">args</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Add a log message. If additional arguments are supplied the <a href="log-msg.html#com.controlj.logging.CJLog$logMsg(kotlin.String, kotlin.Array((kotlin.Any)))/message">message</a> string will be formatted using
+String.format() otherwise it will be used bare.
+A timestamp and the device ID will be prepended to the message, after which it is sent to all destinations.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

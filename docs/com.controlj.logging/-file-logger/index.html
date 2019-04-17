@@ -1,0 +1,100 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>FileLogger - cjlog</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">cjlog</a>&nbsp;/&nbsp;<a href="../index.html">com.controlj.logging</a>&nbsp;/&nbsp;<a href="./index.html">FileLogger</a><br/>
+<br/>
+<h1>FileLogger</h1>
+<code><span class="keyword">class </span><span class="identifier">FileLogger</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-destination/index.html"><span class="identifier">Destination</span></a></code>
+<p>A logging <a href="../-destination/index.html">Destination</a> that saves to the supplied <a href="log-file.html">logFile</a></p>
+<h3>Parameters</h3>
+<p><a name="logFile"></a>
+<code>logFile</code> - The file in which logs are to be saved</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">FileLogger</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.FileLogger$<init>(java.io.File)/logFile">logFile</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><span class="identifier">File</span></a><span class="symbol">)</span></code>
+<p>A logging <a href="../-destination/index.html">Destination</a> that saves to the supplied <a href="log-file.html">logFile</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="log-file.html">logFile</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">logFile</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><span class="identifier">File</span></a></code>
+<p>The file in which logs are to be saved</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="previous-logfiles.html">previousLogfiles</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">previousLogfiles</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><span class="identifier">File</span></a><span class="symbol">&gt;</span></code>
+<p>Retrieve a list of files for previous logs. Returns null if the destination does not support this.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="close.html">close</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">close</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Terminate the logger</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="retrieve-messages.html">retrieveMessages</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">retrieveMessages</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.FileLogger$retrieveMessages(kotlin.Int)/limit">limit</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Retrieve log messages previously sent to this destination.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="send-message.html">sendMessage</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">sendMessage</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.FileLogger$sendMessage(kotlin.String, kotlin.String)/deviceID">deviceID</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.controlj.logging.FileLogger$sendMessage(kotlin.String, kotlin.String)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Send a log message to the destination. This is the only mandatory method to be implemented.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-m-a-x_-f-i-l-e-s.html">MAX_FILES</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">MAX_FILES</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>The maximum number of logfiles to be rotated and preserved.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

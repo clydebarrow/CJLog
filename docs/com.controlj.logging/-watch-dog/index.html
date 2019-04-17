@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>WatchDog - cjlog</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">cjlog</a>&nbsp;/&nbsp;<a href="../index.html">com.controlj.logging</a>&nbsp;/&nbsp;<a href="./index.html">WatchDog</a><br/>
+<br/>
+<h1>WatchDog</h1>
+<code><span class="keyword">class </span><span class="identifier">WatchDog</span></code>
+<h3>Parameters</h3>
+<p><a name="scheduler"></a>
+<code>scheduler</code> - The scheduler for the thread of interest.</p>
+<p><a name="timeout"></a>
+<code>timeout</code> - The watchdog timeout in timeUnits</p>
+<p><a name="timeUnit"></a>
+<code>timeUnit</code> - The timeUnit</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">WatchDog</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.WatchDog$<init>(io.reactivex.Scheduler, kotlin.Long, java.util.concurrent.TimeUnit, kotlin.Function1((kotlin.String, kotlin.Unit)))/scheduler">scheduler</span><span class="symbol">:</span>&nbsp;<span class="identifier">Scheduler</span><span class="symbol">, </span><span class="identifier" id="com.controlj.logging.WatchDog$<init>(io.reactivex.Scheduler, kotlin.Long, java.util.concurrent.TimeUnit, kotlin.Function1((kotlin.String, kotlin.Unit)))/timeout">timeout</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">, </span><span class="identifier" id="com.controlj.logging.WatchDog$<init>(io.reactivex.Scheduler, kotlin.Long, java.util.concurrent.TimeUnit, kotlin.Function1((kotlin.String, kotlin.Unit)))/timeUnit">timeUnit</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/util/concurrent/TimeUnit.html"><span class="identifier">TimeUnit</span></a><span class="symbol">, </span><span class="identifier" id="com.controlj.logging.WatchDog$<init>(io.reactivex.Scheduler, kotlin.Long, java.util.concurrent.TimeUnit, kotlin.Function1((kotlin.String, kotlin.Unit)))/action">action</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="start.html">start</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">start</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Start the watchdog.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="stop.html">stop</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">stop</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Stop the watchdog.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
