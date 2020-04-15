@@ -15,6 +15,15 @@
 <tbody>
 <tr>
 <td>
+<p><a href="build-number.html">buildNumber</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">buildNumber</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>The package build number</p>
+</td>
+</tr>
+<tr>
+<td>
 <p><a href="device-id.html">deviceId</a></p>
 </td>
 <td>
@@ -69,6 +78,24 @@ one that can deliver a result will be used. How much is retained will be destina
 See also <a href="log-files.html">logFiles</a></p>
 </td>
 </tr>
+<tr>
+<td>
+<p><a href="package-name.html">packageName</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">packageName</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>The package name for the app</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="version-string.html">versionString</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">versionString</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>The package version number</p>
+</td>
+</tr>
 </tbody>
 </table>
 <h3>Functions</h3>
@@ -107,7 +134,7 @@ See also <a href="log-files.html">logFiles</a></p>
 </td>
 <td>
 <code><span class="keyword">fun </span><span class="identifier">debug</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.CJLog$debug(kotlin.String, kotlin.Array((kotlin.Any)))/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="keyword">vararg</span> <span class="identifier" id="com.controlj.logging.CJLog$debug(kotlin.String, kotlin.Array((kotlin.Any)))/args">args</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
-<p>Add a log message only if this is a debug build. See <a href="log-msg.html">logMsg</a></p>
+<p>Add a log message only if this is a debug build. See <a href="#">addMessage</a></p>
 </td>
 </tr>
 <tr>
@@ -128,6 +155,15 @@ See also <a href="log-files.html">logFiles</a></p>
 <p>Add a log message. If additional arguments are supplied the <a href="log-msg.html#com.controlj.logging.CJLog$logMsg(kotlin.String, kotlin.Array((kotlin.Any)))/message">message</a> string will be formatted using
 String.format() otherwise it will be used bare.
 A timestamp and the device ID will be prepended to the message, after which it is sent to all destinations.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="remove.html">remove</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">remove</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.CJLog$remove(com.controlj.logging.Destination)/destination">destination</span><span class="symbol">:</span>&nbsp;<a href="../-destination/index.html"><span class="identifier">Destination</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Remove <a href="remove.html#com.controlj.logging.CJLog$remove(com.controlj.logging.Destination)/destination">destination</a> from the current list of destinations.</p>
 </td>
 </tr>
 </tbody>

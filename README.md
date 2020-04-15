@@ -7,11 +7,19 @@ a simple interface.
 
 ## Installation
 
-Options: 
+The library is available through Maven Central. Add this to your `build.gradle`
 
-0. Download a JAR file from one of the [releases](https://github.com/clydebarrow/CJLog/releases) and add to your project libraries.
+````
+dependencies {
+    implementation("com.control-j.cjlog:core:1.1")
+}
+````
+
+Alternatively you could:
+
+1. Download a JAR file from one of the [releases](https://github.com/clydebarrow/CJLog/releases) and add to your project libraries.
 1. Clone the repository and add as a gradle sub-project;
-2. Clone the repository and run `gradlew build` in the root, this will create `build/libs/cjlog-1.0.jar` - add this file to your project libraries.
+1. Clone the repository and run `gradlew build` in the root, this will create `build/libs/cjlog-1.1.jar` - add this file to your project libraries.
 
 ## Usage
 

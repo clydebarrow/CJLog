@@ -10,7 +10,8 @@
 <h1>HttpLogger</h1>
 <code><span class="keyword">class </span><span class="identifier">HttpLogger</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-destination/index.html"><span class="identifier">Destination</span></a></code>
 <p>Log data to a web server. Set the property SYSLOGGER to change the destination. Data is logged using HEAD
-calls with the message and other information in the query string.</p>
+calls with the message and other information in the query string.
+The transmission of data to the remote server is carried out on a dedicated <a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Thread.html">Thread</a>.</p>
 <h3>Parameters</h3>
 <p><a name="onFail"></a>
 <code>onFail</code> - A lambda to be called if connection to the destination fails.</p>
@@ -24,7 +25,8 @@ calls with the message and other information in the query string.</p>
 <td>
 <code><span class="identifier">HttpLogger</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.HttpLogger$<init>(kotlin.Function0((kotlin.Unit)))/onFail">onFail</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a>&nbsp;<span class="symbol">=</span>&nbsp;{}<span class="symbol">)</span></code>
 <p>Log data to a web server. Set the property SYSLOGGER to change the destination. Data is logged using HEAD
-calls with the message and other information in the query string.</p>
+calls with the message and other information in the query string.
+The transmission of data to the remote server is carried out on a dedicated <a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Thread.html">Thread</a>.</p>
 </td>
 </tr>
 </tbody>
@@ -92,6 +94,42 @@ calls with the message and other information in the query string.</p>
 <h3>Companion Object Properties</h3>
 <table>
 <tbody>
+<tr>
+<td>
+<p><a href="-c-h-a-r-s-e-t-n-a-m-e.html">CHARSETNAME</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">CHARSETNAME</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>The charset to use for URL encoding</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-c-o-n-n-e-c-t-i-o-n_-t-i-m-e-o-u-t.html">CONNECTION_TIMEOUT</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">CONNECTION_TIMEOUT</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>How long to wait for a connection to the server</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-m-a-x_-q-u-e-u-e.html">MAX_QUEUE</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">MAX_QUEUE</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>The maximum number of messages to queue</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-r-e-a-d_-t-i-m-e-o-u-t.html">READ_TIMEOUT</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">READ_TIMEOUT</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>How long to wait for a response from the server</p>
+</td>
+</tr>
 <tr>
 <td>
 <p><a href="-s-y-s-l-o-g-g-e-r.html">SYSLOGGER</a></p>

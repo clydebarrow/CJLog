@@ -11,7 +11,8 @@
 <a name="com.controlj.logging.HttpLogger$&lt;init&gt;(kotlin.Function0((kotlin.Unit)))"></a>
 <code><span class="identifier">HttpLogger</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.HttpLogger$<init>(kotlin.Function0((kotlin.Unit)))/onFail">onFail</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a>&nbsp;<span class="symbol">=</span>&nbsp;{}<span class="symbol">)</span></code>
 <p>Log data to a web server. Set the property SYSLOGGER to change the destination. Data is logged using HEAD
-calls with the message and other information in the query string.</p>
+calls with the message and other information in the query string.
+The transmission of data to the remote server is carried out on a dedicated <a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Thread.html">Thread</a>.</p>
 <h3>Parameters</h3>
 <p><a name="onFail"></a>
 <code>onFail</code> - A lambda to be called if connection to the destination fails.</p>
