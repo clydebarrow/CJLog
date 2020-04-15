@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Control-J Pty. Ltd. All rights reserved
+ * Copyright (c) 2019-2020 Control-J Pty. Ltd. All rights reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,18 +24,38 @@ import java.io.OutputStream
 import java.io.PrintStream
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.ConcurrentLinkedQueue
-import java.util.regex.Pattern
+import kotlin.reflect.jvm.jvmName
 
 /**
  * This class enables logging to a file and optionally a remote server.
  */
 object CJLog {
+
+    /**
+     * The package version number
+     */
+
+    var versionString: String = "?.?"
+
+    /**
+     * The package build number
+     */
+
+    var buildNumber: String = "-1"
+
     /**
      * The deviceID. Set by the Application on startup
      */
-    var deviceId = "CJlog.default"
+    var deviceId: String = "?????"
+
+    /**
+     * The package name for the app
+     */
+
+    var packageName: String = "????"
+
     /**
      * If this is a debug build. Must be set by external logic, as it is system dependent.
      */
@@ -118,12 +138,17 @@ object CJLog {
 
     private val LOGMAX = 8192
 
+    private fun isLoggerName(s: String): Boolean {
+        return s == CJLog::class.jvmName || s.contains("Logger")
+    }
+
     // Get the source file and line number from whence the message came. Change this code at your peril.
+    // lines from within logger code are skipped.
     private val tag: String
         get() {
             val stackTrace = Throwable().stackTrace
             for (element in stackTrace) {
-                if (!element.className.startsWith(CJLog::class.java.`package`.name)) {
+                if (!isLoggerName(element.className)) {
                     val tag = element.className.substringAfterLast('.').replace(ANONYMOUS_CLASS, "")
                     return if (element.lineNumber > 0) tag + ":" + element.lineNumber else tag
                 }
@@ -142,7 +167,7 @@ object CJLog {
     }
 
     /**
-     * Add a log message only if this is a debug build. See [logMsg]
+     * Add a log message only if this is a debug build. See [addMessage]
      */
     @JvmStatic
     fun debug(message: String, vararg args: Any) {
@@ -160,10 +185,13 @@ object CJLog {
             val pw = PrintWriter(sw)
             e.printStackTrace(pw)
             addMessage("Exception: $e\n$sw")
-            if (e.cause != null)
-                addMessage("Caused by ${e.cause}")
+            e.cause?.let { cause ->
+                addMessage("Caused by:")
+                logException(cause)
+            }
         } catch (ignored: Exception) {
         }
+
     }
 
     /**
@@ -180,7 +208,6 @@ object CJLog {
     val logFiles: List<File>
         get() = destinations.mapNotNull { it.previousLogfiles }.firstOrNull() ?: listOf()
 
-
     /**
      * Add a new [Destination] to the list.
      */
@@ -189,8 +216,17 @@ object CJLog {
         destinations.add(destination)
     }
 
+
+    /**
+     * Remove [destination] from the current list of destinations.
+     */
+    @JvmStatic
+    fun remove(destination: Destination) {
+        destinations.remove(destination)
+    }
+
     /**
      * Useful logging lambda to poke into various places.
      */
-    val logger = { message: String -> logMsg(message)}
+    val logger = { message: String -> logMsg(message) }
 }
