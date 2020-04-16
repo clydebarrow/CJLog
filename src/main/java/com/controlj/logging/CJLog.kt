@@ -167,7 +167,7 @@ object CJLog {
     }
 
     /**
-     * Add a log message only if this is a debug build. See [addMessage]
+     * Add a log message only if this is a debug build. See [logMsg]
      */
     @JvmStatic
     fun debug(message: String, vararg args: Any) {

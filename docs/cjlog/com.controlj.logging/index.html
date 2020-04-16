@@ -35,8 +35,9 @@
 </td>
 <td>
 <code><span class="keyword">class </span><span class="identifier">FileLogger</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-destination/index.html"><span class="identifier">Destination</span></a></code>
-<p>A logging <a href="-destination/index.html">Destination</a> that saves to the supplied <a href="-file-logger/log-file.html">logFile</a>. On each class creation any previous logfiles
-will be rotated, up to a maximum of <a href="-file-logger/-m-a-x_-f-i-l-e-s.html">MAX_FILES</a>. If the created file is "app.log" then older files will be
+<p>A logging <a href="-destination/index.html">Destination</a> that saves to the supplied <a href="-file-logger/log-file.html">logFile</a>. On each class creation if the current logfile
+is greater in size than a limit, the previous logfiles
+will be rotated, up to a maximum of <a href="-file-logger/max-files.html">maxFiles</a>. If the created file is "app.log" then older files will be
 rotated to "app.log.1" etc.
 Writing to files is carried out on a dedicated <a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Thread.html">Thread</a></p>
 </td>

@@ -10,8 +10,9 @@
 <h1>&lt;init&gt;</h1>
 <a name="com.controlj.logging.FileLogger$&lt;init&gt;(java.io.File)"></a>
 <code><span class="identifier">FileLogger</span><span class="symbol">(</span><span class="identifier" id="com.controlj.logging.FileLogger$<init>(java.io.File)/logFile">logFile</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/io/File.html"><span class="identifier">File</span></a><span class="symbol">)</span></code>
-<p>A logging <a href="../-destination/index.html">Destination</a> that saves to the supplied <a href="log-file.html">logFile</a>. On each class creation any previous logfiles
-will be rotated, up to a maximum of <a href="-m-a-x_-f-i-l-e-s.html">MAX_FILES</a>. If the created file is "app.log" then older files will be
+<p>A logging <a href="../-destination/index.html">Destination</a> that saves to the supplied <a href="log-file.html">logFile</a>. On each class creation if the current logfile
+is greater in size than a limit, the previous logfiles
+will be rotated, up to a maximum of <a href="max-files.html">maxFiles</a>. If the created file is "app.log" then older files will be
 rotated to "app.log.1" etc.
 Writing to files is carried out on a dedicated <a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Thread.html">Thread</a></p>
 <h3>Parameters</h3>
