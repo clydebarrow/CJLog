@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Control-J Pty. Ltd. All rights reserved
+ * Copyright (c) 2019-2021 Control-J Pty. Ltd. All rights reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,39 @@
  * limitations under the License.
  *
  */
-
 package com.controlj.logging
 
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableEmitter
+import retrofit2.HttpException
 import java.io.File
 import java.io.OutputStream
 import java.io.PrintStream
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.util.Locale
+import java.util.Date
+import java.util.TimeZone
 import java.util.concurrent.ConcurrentLinkedQueue
-import kotlin.reflect.jvm.jvmName
 
 /**
  * This class enables logging to a file and optionally a remote server.
  */
 object CJLog {
+
+    /**
+     * A priority mechanism similar to the Syslog severity levels
+     */
+
+    enum class Priority {
+        Emergency,
+        Alert,
+        Critical,
+        Error,
+        Warning,
+        Notice,
+        Info,
+        Debug
+    }
 
     /**
      * The package version number
@@ -43,7 +58,7 @@ object CJLog {
      * The package build number
      */
 
-    var buildNumber: String = "-1"
+    var buildNumber: Int = -1
 
     /**
      * The deviceID. Set by the Application on startup
@@ -57,9 +72,27 @@ object CJLog {
     var packageName: String = "????"
 
     /**
+     * The current minimum level of messages to report
+     */
+
+    var logLevel: Priority = Priority.Info
+
+    /**
      * If this is a debug build. Must be set by external logic, as it is system dependent.
      */
-    var isDebug = false
+
+    var isDebug: Boolean
+        get() = logLevel == Priority.Debug
+        set(value) {
+            logLevel = if (value) Priority.Debug else Priority.Info
+        }
+
+    private var started = false     // have we started yet?
+
+    private var lastMessage: String = ""        // the last message we sent, used to collapse duplicates
+
+    private var duplicateCount: Int = 0         // how many duplicates seen
+
     // The list of logging destinations.
     private val destinations = ConcurrentLinkedQueue<Destination>()
 
@@ -101,13 +134,35 @@ object CJLog {
             return null
         }
 
-    private fun addMessage(message: String, vararg args: Any) {
-        var msgString = message
-        val tag = tag
-        if (args.size != 0)
-            msgString = String.format(message, *args)
-        msgString = String.format(Locale.US, "%1\$tF %1\$tT %2\$s: %3\$s\n", System.currentTimeMillis(), tag, msgString)
-        destinations.forEach { it.sendMessage(deviceId, msgString) }
+    private fun sendMessage(message: String, priority: Priority = Priority.Notice, tag: String = "LoggingMeta") {
+        destinations.forEach {
+            it.sendMessage(deviceId, logLevel, System.currentTimeMillis(), tag, message)
+        }
+    }
+
+    fun addMessage(message: String, vararg args: Any) {
+        addMessage(logLevel, message, args)
+    }
+
+    fun addMessage(priority: Priority, message: String, vararg args: Any) {
+        if (!started) {
+            started = true
+            sendMessage("\n\n**********************************\nLogger created, device $deviceId, version $versionString, build $buildNumber")
+            val offsetHrs = TimeZone.getDefault().getOffset(Date().time) / 3600000.0
+            sendMessage(String.format("Offset from UTC is %.1f", offsetHrs))
+        }
+        if (priority <= logLevel) {
+            if (message == lastMessage) {
+                duplicateCount++
+                return
+            }
+            if (duplicateCount != 0) {
+                sendMessage("[Last message repeated $duplicateCount times]")
+                duplicateCount = 0
+            }
+            lastMessage = message
+            sendMessage(String.format(if (args.isNotEmpty()) String.format(message, *args) else message), priority, tag)
+        }
     }
 
     /**
@@ -125,8 +180,8 @@ object CJLog {
         System.setErr(PrintStream(object : OutputStream() {
             val buffer = StringBuffer()
             override fun write(p0: Int) {
-                if (p0 == '\n'.toInt()) {
-                    logMsg("%s", buffer.toString())
+                if (p0 == '\n'.code) {
+                    logMsg(buffer.toString())
                     buffer.setLength(0)
                 } else
                     buffer.append(p0.toChar())
@@ -134,12 +189,12 @@ object CJLog {
         }))
     }
 
-    private val ANONYMOUS_CLASS = Regex("(\\$\\d+)+$")
+    private val ANONYMOUS_CLASS = Regex("(\\$[A-Za-z0-9]+)+$")
 
     private val LOGMAX = 8192
 
     private fun isLoggerName(s: String): Boolean {
-        return s == CJLog::class.jvmName || s.contains("Logger")
+        return s.endsWith(".Logger") || s.startsWith("com.controlj.logging")
     }
 
     // Get the source file and line number from whence the message came. Change this code at your peril.
@@ -149,7 +204,8 @@ object CJLog {
             val stackTrace = Throwable().stackTrace
             for (element in stackTrace) {
                 if (!isLoggerName(element.className)) {
-                    val tag = element.className.substringAfterLast('.').replace(ANONYMOUS_CLASS, "")
+                    val tag =
+                        element.fileName ?: element.className.substringAfterLast('.').replace(ANONYMOUS_CLASS, "")
                     return if (element.lineNumber > 0) tag + ":" + element.lineNumber else tag
                 }
             }
@@ -166,13 +222,32 @@ object CJLog {
         addMessage(message, *args)
     }
 
+    fun <T : Any> T.log(): T {
+        addMessage(toString())
+        return this
+    }
+
     /**
-     * Add a log message only if this is a debug build. See [logMsg]
+     * Add a log message only if this is a debug build. See [addMessage]
      */
     @JvmStatic
     fun debug(message: String, vararg args: Any) {
         if (isDebug)
             addMessage(message, *args)
+    }
+
+    /**
+     * Use where the message creation is expensive.
+     */
+    fun debug(block: () -> String) {
+        if (isDebug)
+            addMessage(block())
+    }
+
+    fun <T : Any> T.debug(): T {
+        if (isDebug)
+            addMessage(toString())
+        return this
     }
 
     /**
@@ -189,6 +264,7 @@ object CJLog {
                 addMessage("Caused by:")
                 logException(cause)
             }
+            (e as? HttpException)?.response()?.errorBody()?.let { addMessage(it.string()) }
         } catch (ignored: Exception) {
         }
 
@@ -216,10 +292,6 @@ object CJLog {
         destinations.add(destination)
     }
 
-
-    /**
-     * Remove [destination] from the current list of destinations.
-     */
     @JvmStatic
     fun remove(destination: Destination) {
         destinations.remove(destination)

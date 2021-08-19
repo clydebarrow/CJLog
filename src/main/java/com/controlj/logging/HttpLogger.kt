@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Control-J Pty. Ltd. All rights reserved
+ * Copyright (c) 2019-2021 Control-J Pty. Ltd. All rights reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,103 +18,84 @@
 package com.controlj.logging
 
 import com.controlj.logging.CJLog.logMsg
-import java.io.File
-import java.io.UnsupportedEncodingException
 import java.net.HttpURLConnection
-import java.net.MalformedURLException
 import java.net.URL
-import java.net.URLEncoder
-import java.util.concurrent.BlockingQueue
-import java.util.concurrent.LinkedBlockingQueue
 
 /**
  * Log data to a web server. Set the property SYSLOGGER to change the destination. Data is logged using HEAD
  * calls with the message and other information in the query string.
- * The transmission of data to the remote server is carried out on a dedicated [Thread].
+ * The transmission of data to the remote server is carried out on a dedicated thread.
  *
  * @param onFail A lambda to be called if connection to the destination fails.
  */
-class HttpLogger(onFail: () -> Unit = {}) : Destination {
-    private var messageQueue: BlockingQueue<URL> = LinkedBlockingQueue(MAX_QUEUE)
-    private val syslogger = Thread {
-        try {
-            while (true) {
-                val url = messageQueue.take()
-                if(!sendLog(url)) {
-                    logMsg("Send http log failed")
-                    onFail()
-                    break
-                }
-            }
-        } catch (e: InterruptedException) {
-        }
-    }
-
-    init {
-        syslogger.start()
-    }
-
-    override fun sendMessage(deviceID: String, message: String) {
-        val url: URL
-        val args: String
-        if (!syslogger.isAlive)
-            return
-        try {
-            args = "?device=" + URLEncoder.encode(deviceID, CHARSETNAME) + "&" + "message=" + URLEncoder.encode(message, CHARSETNAME)
-        } catch (ignored: UnsupportedEncodingException) {
-            return
-        }
-        try {
-            url = URL(SYSLOGGER + args)
-        } catch (ignored: MalformedURLException) {
-            return
-        }
-        messageQueue.offer(url)
-    }
-
-    override fun close() {
-        syslogger.interrupt()
-    }
+class HttpLogger(val onFail: () -> Unit = {}, val postUrl: String = SYSLOGGER) : NetworkLogger() {
 
     /**
      * Actually send the log to the destination [url].
      */
-    protected fun sendLog(url: URL): Boolean {
+    override fun sendLog(data: Message): Boolean {
         try {
-            val connection = url.openConnection() as HttpURLConnection
+            val bytes = data.bytes
+            val connection = URL(postUrl).openConnection() as HttpURLConnection
             connection.connectTimeout = CONNECTION_TIMEOUT
             connection.readTimeout = READ_TIMEOUT
-            connection.requestMethod = "HEAD"
+            connection.requestMethod = "POST"
+            connection.doOutput = true
+            connection.setRequestProperty("Content-type", "text/plain; charset=utf-8")
+            connection.setRequestProperty("Content-length", bytes.size.toString())
+            connection.setRequestProperty("X-DeviceId", data.deviceId)
+            connection.outputStream.use {
+                it.write(bytes)
+            }
             val responseCode = connection.responseCode
-            connection.disconnect()
-            return responseCode in (200..399)
+            if(responseCode !in (200..399)) {
+                connection.errorStream.close()
+                System.err.println("Failed to send data: $responseCode")
+                logMsg("Failed to send data: $responseCode")
+                return false
+            }
+            connection.inputStream.close()
+            return true
         } catch (e: Exception) {
             return false
         }
+    }
 
+    override fun onFailure(message: Message) {
+        onFail()
     }
 
     companion object {
         /**
-         * The destination to use.
+         * The host to use
          */
         var SYSLOGGER = "http://192.168.1.131/syslog.php"
+
         /**
          * The maximum number of messages to queue
          */
         var MAX_QUEUE = 100
-        /**
-         * The charset to use for URL encoding
-         */
-        var CHARSETNAME = "UTF-8"
+
         /**
          * How long to wait for a response from the server
          */
         var READ_TIMEOUT = 20000
+
         /**
          * How long to wait for a connection to the server
          */
         var CONNECTION_TIMEOUT = 10000
-    }
 
+        /**
+         * Parameter keys
+         */
+
+
+        /**
+         * Set if a successful connection is made. Used by others to check if we are running in a local debug
+         * environment
+         */
+        var isConnected = false
+            private set
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Control-J Pty. Ltd. All rights reserved
+ * Copyright (c) 2019-2021 Control-J Pty. Ltd. All rights reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,19 @@ interface Destination {
     fun sendMessage(deviceID: String, message: String)
 
     /**
+     *
+     * Override this method to provide custom formatting.
+     *
+     * @param deviceId Identifies the app
+     * @param priority the priority level of the message
+     * @param timestamp A timestamp for the message
+     */
+
+    fun sendMessage(deviceId: String, priority: CJLog.Priority, timestamp: Long, location: String, message: String) {
+        sendMessage(deviceId, "${timestamp.toDateString} $location: $message")
+    }
+
+    /**
      * Retrieve a list of files for previous logs. Returns null if the destination does not support this.
      * @return A list of Files
      */
@@ -53,5 +66,10 @@ interface Destination {
      * Terminate the logger
      */
     fun close() = Unit
+
+    companion object {
+        val Long.toDateString: String
+            get() = String.format("%1\$tF %1\$tT", this)
+    }
 }
 

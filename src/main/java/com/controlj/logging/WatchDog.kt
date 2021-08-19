@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Control-J Pty. Ltd. All rights reserved
+ * Copyright (c) 2019-2021 Control-J Pty. Ltd. All rights reserved
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@
 package com.controlj.logging
 
 import com.controlj.logging.CJLog.logMsg
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.disposables.Disposables
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 /**
@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit
 class WatchDog(private val scheduler: Scheduler, private val timeout: Long, private val timeUnit: TimeUnit, private val action: ((String) -> Unit)) {
 
     private var thread: Thread? = null
-    private var disposable = Disposables.disposed()
+    private var disposable = Disposable.disposed()
     private val observable = Observable.interval(timeout / 2, timeUnit, scheduler)
             .timeout(timeout, timeUnit, Schedulers.io())
 
