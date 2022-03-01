@@ -141,7 +141,7 @@ object CJLog {
     }
 
     fun addMessage(message: String, vararg args: Any) {
-        addMessage(logLevel, message, args)
+        addMessage(logLevel, message, *args)
     }
 
     fun addMessage(priority: Priority, message: String, vararg args: Any) {

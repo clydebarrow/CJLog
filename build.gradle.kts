@@ -22,7 +22,7 @@ buildscript {
     repositories {
         mavenCentral()
         google()
-        maven { setUrl("https://kotlin.bintray.com/kotlinx") }
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven") }
     }
 }
 
@@ -31,25 +31,25 @@ plugins {
     signing
     idea
     `maven-publish`
-    kotlin("jvm") version "1.5.21"
+    kotlin("jvm") version "1.6.10"
     id("org.jetbrains.dokka") version "1.5.0"
 }
 
 group = "com.control-j.cjlog"
-version = "2.0"
+version = "2.1"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("io.reactivex.rxjava3:rxjava:3.0.4")
+    implementation("io.reactivex.rxjava3:rxjava:3.1.3")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
-    testImplementation("junit:junit:4.12")
-    testImplementation("io.mockk:mockk:1.10.0")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("io.mockk:mockk:1.12.2")
 }
 
 tasks {
