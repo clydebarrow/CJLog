@@ -14,7 +14,7 @@ The library is available through Maven Central. Add this to your `build.gradle`
 
 ````
 dependencies {
-    implementation("com.control-j.cjlog:core:1.2")
+    implementation("com.control-j.cjlog:core:2.1")
 }
 ````
 
