@@ -1,7 +1,7 @@
 CJLog
 =====
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.control-j.cjlog/core/badge.png)](https://maven-badges.herokuapp.com/maven-central/com.control-j.cjlog/core/badge.png)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.control-j.cjlog/core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.control-j.cjlog/core)
 
 This library provides a lightweight, system independent logging facility to multiple destinations.
 Written in Kotlin, it can also be used in Java projects. A logging destination can be to a file, via HTTP to a local host,
