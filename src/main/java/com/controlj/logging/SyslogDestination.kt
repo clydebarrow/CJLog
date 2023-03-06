@@ -24,27 +24,32 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.util.concurrent.Executors
 
 /**
  * Send log messages to a UDP Syslog destination.
- * @param host The destination host
+ * @param host The destination host, defaults to localhost
  * @param port The destination port, defaults to 514.
  */
-class SyslogDestination(val host: String = "localhost", val port: Int = 514) : NetworkLogger() {
+class SyslogDestination(host: String = "localhost", private val port: Int = 514) : NetworkLogger() {
 
-    var serverAddress = InetAddress.getByName(host)
-    var datagramSocket = DatagramSocket()
-    val hostName = InetAddress.getLocalHost().hostName
+    private val datagramSocket = DatagramSocket()
+
+    // lazy init these so that it occurs on a background thread.
+    private val serverAddress: InetAddress by lazy { InetAddress.getByName(host) }
+    private val clientName: String by lazy { InetAddress.getLocalHost().hostName }
+    private val executor = Executors.newSingleThreadExecutor()
 
     override fun sendLog(data: Message): Boolean {
-        try {
-            val bytes = data.bytes
-            val dgram = DatagramPacket(bytes, bytes.size, serverAddress, port)
-            datagramSocket.send(dgram)
-            return true
-        } catch (ex: Exception) {
-            return false
+        executor.submit {
+            try {
+                val bytes = data.bytes
+                val dgram = DatagramPacket(bytes, bytes.size, serverAddress, port)
+                datagramSocket.send(dgram)
+            } catch (ex: Exception) {
+            }
         }
+        return true
     }
 
     override fun sendMessage(
@@ -56,15 +61,13 @@ class SyslogDestination(val host: String = "localhost", val port: Int = 514) : N
     ) {
         sendMessage(
             deviceId,
-            "<${priority.ordinal + 16 * 8}>${timestamp.rfc3164Date} $hostName ${location.replace(':', '.')}: $message"
+            "<${priority.ordinal + 16 * 8}>${timestamp.rfc3164Date} $clientName ${location.replace(':', '.')}: $message"
         )
     }
 
-    val Long.rfc5424Date: String
-        get() = String.format("%1\$tFT%1\$tT%1\$tZ", this)
+    private val rfc3164Formatter: DateTimeFormatter =
+        DateTimeFormatter.ofPattern("MMM dd HH:mm:ss").withLocale(Locale.US)
 
-    val rfc3164Formatter = DateTimeFormatter.ofPattern("MMM dd HH:mm:ss").withLocale(Locale.US)
-
-    val Long.rfc3164Date: String
+    private val Long.rfc3164Date: String
         get() = rfc3164Formatter.format(Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()))
 }

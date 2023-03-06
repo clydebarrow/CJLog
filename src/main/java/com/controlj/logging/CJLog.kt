@@ -134,9 +134,9 @@ object CJLog {
             return null
         }
 
-    private fun sendMessage(message: String, priority: Priority = Priority.Notice, tag: String = "LoggingMeta") {
+    private fun sendMessage(message: String, priority: Priority = logLevel, tag: String = "LoggingMeta") {
         destinations.forEach {
-            it.sendMessage(deviceId, logLevel, System.currentTimeMillis(), tag, message)
+            it.sendMessage(deviceId, priority, System.currentTimeMillis(), tag, message)
         }
     }
 
@@ -152,7 +152,8 @@ object CJLog {
             sendMessage(String.format("Offset from UTC is %.1f", offsetHrs))
         }
         if (priority <= logLevel) {
-            if (message == lastMessage) {
+            val formattedMessage = if (args.isNotEmpty()) message.format(*args) else message
+            if (formattedMessage == lastMessage) {
                 duplicateCount++
                 return
             }
@@ -160,8 +161,8 @@ object CJLog {
                 sendMessage("[Last message repeated $duplicateCount times]")
                 duplicateCount = 0
             }
-            lastMessage = message
-            sendMessage(String.format(if (args.isNotEmpty()) String.format(message, *args) else message), priority, tag)
+            lastMessage = formattedMessage
+            sendMessage(formattedMessage, priority, tag)
         }
     }
 

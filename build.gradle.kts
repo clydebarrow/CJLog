@@ -31,15 +31,19 @@ plugins {
     signing
     idea
     `maven-publish`
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.7.20"
     id("org.jetbrains.dokka") version "1.5.0"
 }
 
 group = "com.control-j.cjlog"
-version = "2.1"
+version = "2.4"
 
 repositories {
     mavenCentral()
+}
+
+configurations.all {
+    resolutionStrategy.force("com.squareup.okhttp3:okhttp:4.10.0")
 }
 
 dependencies {
@@ -52,19 +56,19 @@ dependencies {
     testImplementation("io.mockk:mockk:1.12.2")
 }
 
+val javaVersion = JavaVersion.VERSION_1_8
 tasks {
-    val java = "1.8"
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = java
+            jvmTarget = javaVersion.toString()
         }
-        sourceCompatibility = java
-        targetCompatibility = java
     }
 }
 
 java {
     withSourcesJar()
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
 }
 
 
