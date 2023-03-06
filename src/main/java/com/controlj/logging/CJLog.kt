@@ -18,7 +18,6 @@ package com.controlj.logging
 
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableEmitter
-import retrofit2.HttpException
 import java.io.File
 import java.io.OutputStream
 import java.io.PrintStream
@@ -265,7 +264,6 @@ object CJLog {
                 addMessage("Caused by:")
                 logException(cause)
             }
-            (e as? HttpException)?.response()?.errorBody()?.let { addMessage(it.string()) }
         } catch (ignored: Exception) {
         }
 
