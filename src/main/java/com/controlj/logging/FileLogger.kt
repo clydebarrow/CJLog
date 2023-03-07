@@ -112,7 +112,7 @@ class FileLogger(val logFile: File) : Destination {
     }
 
     override val previousLogfiles: List<File>
-        get() = (0 until maxFiles).map { previous(it) }.filter { it.exists() }.toList()
+        get() = (0 .. maxFiles).map { previous(it) }.filter { it.exists() }.toList()
 
     override fun close() {
         logThread.interrupt()
